@@ -21,7 +21,8 @@ const user = {
 user.regularFn()
 user.anonymousFn()
 
-
+const regFunc = user.regularFn;
+regFunc(); // `this` will refer to the global object (window in browsers) or undefined in strict mode
 // Q2. What is the output from below code ?
 
 
@@ -85,8 +86,52 @@ setTimeout(function(){
 }, 1000)
 
 
+// Q5: this context changes when an  arrow function is inside a regular function
+
+const obj = {
+  name: "Manish",
+  regular() {
+    const arrow = () => {
+      console.log(this.name); // this = obj (inherited from method)
+    };
+    arrow();
+  }
+};
+obj.regular(); // "Manish"
 
 
 
+// Q6: this context changes when an  arrow function is inside a regular function
+const obj2 = {
+  name: "Manish",
+  regular() {
+    function anotherRegular() {
+      console.log(this.name); // this = window (global object)
+    }
+    inner();
+  }
+};
+obj2.regular(); // undefined
+// Explanation: 
+// In this case, `this` inside the anotherRegular function refers to the global object (window in browsers), not the obj2 object.
+// This is because anotherRegular is called as a regular function, not as a method of the obj2 object.
+// In JavaScript, when a regular function is called without any context (not as a method of an object), its this value defaults to the global object (window in browsers, global in Node.js)
 
 
+
+// Q7: this context changes when an  regular function is inside an arrow function
+
+const obj3 = {
+  name: "Manish",
+  arrowFn: () => {
+    function regularFn() {
+      console.log(this.name);
+    };
+    regularFn();
+  }
+};
+obj.arrowFn(); // undefined
+// Explanation:
+// In this case, `this` inside the regularFn function refers to the global object (window in browsers), not the obj3 object.
+// This is because regularFn is called as a regular function, not as a method of the obj3 object.
+// In JavaScript, when a regular function is called without any context (not as a method of an object), its this value defaults to the global object (window in browsers, global in Node.js)
