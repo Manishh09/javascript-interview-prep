@@ -34,6 +34,8 @@ A();
 
 
 // Q: Create private counter using closures
+// Closures also useful to create a private variable
+
 function createCounter() {
   let count = 0; // This variable is "remembered"
 
@@ -77,3 +79,16 @@ function fetchData(callback) {
 fetchData((data) => {
   console.log(data); // Output: Data fetched (after 2 seconds delay)
 });
+
+// Closures also useful to create a private variable
+// Helper functions for e.g as below
+
+function createElement(element) {
+
+  return () => {
+    return document.createElement(element);
+  }
+}
+
+const div = createElement('div');
+div();
